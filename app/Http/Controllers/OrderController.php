@@ -40,6 +40,11 @@ class OrderController extends Controller
     //     //
     // }
 
+    public function index(){
+        $order = Order::orderBy('created_at','Desc')->get();
+        return view("admin.order.index",['order'=>$order]);
+    }
+
     public function Create(Request $request){
         $request->validate([
             'customer_name'=> 'required | string',
@@ -89,5 +94,20 @@ class OrderController extends Controller
     public function showOrder(){
         $order = Order::where("user_id",Auth::id())->get();
         return view("client.list_order",['order'=>$order]);
+    }
+
+    public function detail($id){
+        $order = Order::find($id);
+        return view("admin.order.detail",['order'=>$order]);
+    }
+
+    public function edit($id, Request $request){
+        $order = Order::find($id);
+        $request->validate([
+            "status"=> "required|integer|unique:order",
+        ]);
+        $order->status = $request->get('status');
+        $order->save();    
+        return view("admin.order.detail",['order'=>$order]);
     }
 }

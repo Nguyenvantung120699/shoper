@@ -64,7 +64,7 @@
               <div class="col-12 grid-margin">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="card-title">Order list not seen</h4>
+                    <h4 class="card-title" style="color:red">Order list not seen</h4>
                     <div class="table-responsive">
                       <table class="table">
                         <thead>
@@ -80,10 +80,10 @@
                         @forelse($orders as $o)
                           <tr>
                             <td>{{$o->id}}</td>
-                            <td>{{$o->customerName}}</td>
+                            <td>{{$o->customer_name}}</td>
                             <td>{{$o->telephone}}</td>
                             <td>{{$o->created_at}}</td>
-                            <td>{{$o->grandTotal}}</td>
+                            <td>{{number_format($o->grand_total,0,',','.')}} vnđ</td>
                           </tr>
                           @empty
                           <tr>

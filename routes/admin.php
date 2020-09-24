@@ -36,5 +36,7 @@ Route::get('user/edit/{id}',[App\Http\Controllers\UserController::class, 'edit']
 Route::post('user/update/{id}',[App\Http\Controllers\UserController::class, 'update']);
 Route::get('user/delete/{id}',[App\Http\Controllers\UserController::class, 'destroy']);
 
-//route user
-Route::get('orderIndex',"AdminController@orderIndex");
+//route order
+Route::get('orderIndex',[App\Http\Controllers\OrderController::class, 'index']);
+Route::get('order-detail/{id}',[App\Http\Controllers\OrderController::class, 'detail']);
+Route::post('order-status/{id}',[App\Http\Controllers\OrderController::class, 'edit']);

@@ -22,7 +22,7 @@ Route::prefix("admin")->middleware(['auth',"check_admin"])->group(function (){
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');   
+Route::get('/shoper', [App\Http\Controllers\HomeController::class, 'index'])->name('home');   
 Route::get('/shop', [App\Http\Controllers\HomeController::class, 'shop'])->name('shop'); 
 Route::get('/product_single/{id}', [App\Http\Controllers\HomeController::class, 'product_single'])->name('shop'); 
 
