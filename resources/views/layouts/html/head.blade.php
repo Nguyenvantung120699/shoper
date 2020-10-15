@@ -4,6 +4,7 @@
     <meta name="keywords" content="Ashion, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <title>Ashion | Template</title>
 
     <!-- Google Font -->
@@ -20,4 +21,5 @@
     <link rel="stylesheet" href="{{asset("client/css/owl.carousel.min.css")}}" type="text/css">
     <link rel="stylesheet" href="{{asset("client/css/slicknav.min.css")}}" type="text/css">
     <link rel="stylesheet" href="{{asset("client/css/style.css")}}" type="text/css">
+    <link rel="stylesheet" href="{{asset("client/css/star.css")}}" type="text/css">
 </head>

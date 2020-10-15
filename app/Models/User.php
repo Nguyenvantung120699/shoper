@@ -21,7 +21,11 @@ class User extends Authenticatable
     ];
 
     public function userProfile(){
-        return $this->hasOne("App\UserProfile","users_id",);
+        return $this->hasOne("App\Models\UserProfile","user_id",);
+    }
+
+    public function Feedback(){
+        return $this->hasMany("App\Models\FeedbackProduct",'user_id');
     }
 
     const ADMIN = 1;

@@ -14,6 +14,9 @@ class FeedbackProduct extends Model
     protected $fillable = ['user_id','name','product_id','point','feel','image'];
 
     public function Products(){
-        return $this->hasMany("\App\Product",'product_id');
+        return $this->hasMany("\App\Models\Product",'product_id');
+    }
+    public function Users(){
+        return $this->belongsTo("\App\Models\User",'user_id');
     }
 }

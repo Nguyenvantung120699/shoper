@@ -117,3 +117,21 @@
     @endif
     <!-- Shop Cart Section End -->
     @endsection
+    @section('js')
+    <script type="text/javascript">
+        $('.brand_id').click(function(){
+            var id =$(this).attr("data-id")
+            $.ajax({
+                url:'{{url("/cartAjax")}}',
+                method: 'post', 
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    brand_id : id,
+                },
+            success : function(data){
+                $product = $(data); 
+            },  
+        });
+        });
+    </script>
+    @endsection

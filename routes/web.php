@@ -22,8 +22,9 @@ Route::prefix("admin")->middleware(['auth',"check_admin"])->group(function (){
 
 Auth::routes();
 
-Route::get('/shoper', [App\Http\Controllers\HomeController::class, 'index'])->name('home');   
-Route::get('/shop', [App\Http\Controllers\HomeController::class, 'shop'])->name('shop'); 
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');   
+Route::get('/shop', [App\Http\Controllers\HomeController::class, 'shop'])->name('shop');
+Route::post('/shopAjax', [App\Http\Controllers\HomeController::class, 'shopAjax'])->name('shop.Ajax');
 Route::get('/product_single/{id}', [App\Http\Controllers\HomeController::class, 'product_single'])->name('shop'); 
 
 Route::get('/cart', [App\Http\Controllers\CartController::class, 'showCart'])->middleware("auth"); ;
@@ -37,7 +38,8 @@ Route::post("/create-order",[App\Http\Controllers\OrderController::class, 'Creat
 Route::get("/confirm-order",[App\Http\Controllers\OrderController::class, 'confirmOrder'])->middleware("auth"); 
 Route::get("/list-order",[App\Http\Controllers\OrderController::class, 'showOrder'])->middleware("auth"); 
 
-
+Route::post('postLogin', [App\Http\Controllers\HomeController::class, 'postLogin'])->name('postLogin');  
+Route::post('postFeedback', [App\Http\Controllers\FeedbackController::class, 'store'])->name('postFeedback');  
 
 Route::get('/logout',function (){
     \Illuminate\Support\Facades\Auth::logout();

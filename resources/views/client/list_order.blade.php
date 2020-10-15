@@ -33,71 +33,69 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="shop__cart__table">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Sản Phẩm</th>
-                                    <th>Giá</th>
-                                    <th>Số Lượng</th>
-                                    <th>Tổng Tiền</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                    <div class="blog__sidebar__item">
+                        <div class="section-title">
+                            <h4>Danh sách đơn hàng</h4>
+                        </div>
+
+                        <ul class="list-group list-group-flush">
                             @foreach($order as $c)
-                                <tr>
+                            <li class="list-group-item">
+                                <div>
+                                   <div class="col-md-12 row">
+                                        <div class="col-md-11">
+                                            <b>Mã đơn : #{{$c->id}}</b> - 
+                                            @if($c->status==0)
+                                                <label style="color:Red">Chưa Xác Nhận</label>
+                                                <button type="button" class="btn btn-danger btn-sm">Hủy đơn</button>
+                                            @elseif($c->status==1)
+                                                <label style="color:Yellow">Đã Xác Nhận</label>
+                                            @elseif($c->status==2)
+                                                <label style="color:Blue">Đang Chuẩn Bị</label>
+                                            @elseif($c->status==3)
+                                                <label style="color:Purple">Đã Giao Cho Đơn Vị Vận Chuyển</label>
+                                            @elseif($c->status==4)
+                                                <label style="color:Orange">Đang Vận Chuyển</label>
+                                            @elseif($c->status==5)
+                                                <label style="color:Green">Đã Giao</label>
+                                            @else
+                                                <label style="color:Black">Đã Hủy</label>
+                                            @endif
+                                            <p>Đặt ngày : {{$c->created_at}} @if($c->status==5)| Đã giao ngày : {{$c->updated_at}} @endif</p>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <a href="#">Quản Lý</a> 
+                                        </div>
+                                   </div>
+                                   <div class="col-md-12">
+                                        <b style="color:black">Sản phẩm :</b>
+                                   </div>
+                                    <div class="col-md-12 row">
                                     @foreach(\App\Models\OrderProduct::where("order_id",$c->id)->get() as $p)
                                         @foreach(\App\Models\Product::where("id",$p->product_id)->get() as $pr)
-                                            <td class="cart__product__item">
-                                                     @if($c->status==0)
-                                                        <b style="color:Red">Chưa Xác Nhận</b>
-                                                    @elseif($c->status==1)
-                                                        <b style="color:Yellow">Đã Xác Nhận</b>
-                                                    @elseif($c->status==2)
-                                                        <b style="color:Blue">Đang Chuẩn Bị</b>
-                                                    @elseif($c->status==3)
-                                                        <b style="color:Purple">Đã Giao Cho Đơn Vị Vận Chuyển</b>
-                                                    @elseif($c->status==4)
-                                                        <b style="color:Orange">Đang Vận Chuyển</b>
-                                                    @elseif($c->status==5)
-                                                        <b style="color:Green">Đã Giao</b>
-                                                    @else
-                                                        <b style="color:Black">Đã Hủy</b>
-                                                    @endif
-                                                <img style="width:100px" src="{{asset($pr->thumbnail)}}" alt="">
-                                                <div class="cart__product__item__title">
-                                                    <span>Mã đơn: {{$c->id}}</span>
-                                                    <h6>{{$pr->product_name}}</h6>
-                                                    <div class="rating">
-                                                        <p>Màu : {{$p->color}} , Kích thước : {{$p->size}}</p>
-                                                    </div>
+                                        <div class="col-md-4">
+                                            <a href="#" class="blog__feature__item">
+                                                @if($c->status==5)
+                                                    <a href="#" data-toggle="modal" data-target="#feedback{{$p->product_id}}ModalCenter"><button type="button" class="btn btn-success btn-sm">Đánh Giá</button></a>
+                                                @endif
+                                                <div class="blog__feature__item__pic">
+                                                    <img style="width:100px" src="{{asset($pr->thumbnail)}}" alt="">
                                                 </div>
-                                            </td>
-                                            <td class="cart__price">{{$pr->getPrice()}} vnđ</td>
-                                            <td class="cart__quantity">
-                                                <b>{{$p->quantity}}</b>
-                                            </td>
+                                                <div class="blog__feature__item__text">
+                                                    <h6>{{$pr->product_name}}</h6>
+                                                    <p>Màu : {{$p->color}}, Kích Thước : {{$p->size}}</p>
+                                                    <p>Số lượng : {{$p->quantity}} </p>
+                                                </div>
+                                            </a>
+                                        </div>  
                                         @endforeach
-                                    @endforeach
-                                    <td class="cart__total">{{number_format($c->grand_total,0,',','.')}} vnđ</td>
-                                    <td class="cart__close"><a href="{{url("/delete-item-cart/{$c->id}")}}"><span class="icon_close"></span></a></td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-6">
-                    <div class="cart__btn">
-                        <a href="#">Trang Trước</a>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-6">
-                    <div class="cart__btn update__btn">
-                        <a href="#"><span class="icon_loading"></span>Trang Sau</a>
+                                    @endforeach 
+                                </div>
+                                </div>
+                            </li>
+                            @include('client.modal.feedback')
+                            @endforeach
+                        </ul>
                     </div>
                 </div>
             </div>

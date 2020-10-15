@@ -22,7 +22,7 @@ use App\Models\Category;
 use App\Models\Brand;
 use App\Models\Product;
 use App\Models\User;
-use App\Models\Models\FeedbackProducts;
+use App\Models\FeedbackProduct;
 use App\Models\Order;
 use App\Models\OrderProducts;
 
@@ -59,12 +59,20 @@ class HomeController extends Controller
         'brand_news'=>$brand_news,'product'=>$product]);
     }
 
-    public function shop()
-    {
-        $brand = Brand::all();
-        $category = Category::all();
-        $product = Product::where('quantity', '>', 1)->paginate(12);
-        return view('client.shop',['brand'=>$brand,'category'=>$category,'product'=>$product]);
+    public function shop(){
+        $brand=Brand::all();
+        $category=Category::all();
+        $product=Product::query()->paginate(9);
+        return view('client.shop',compact('brand','category','product'));
+    }
+    public function shopAjax(Request $request)
+    { 
+        $condition =$request->all();
+        if($condition){
+            $product=Product::where('brand_id',$condition['brand_id'])->get();
+
+        }
+        return response()->json(['product'=>$product]);
     }
 
     public function product_single($id)
@@ -72,11 +80,30 @@ class HomeController extends Controller
         $product=Product::find($id);
         $brand = Brand::find($product->brands_id);
         // $rate=FeedbackProducts::where("productsId",$product->id)->get();
-        // $ratenew=FeedbackProducts::where("productsId",$product->id)->paginate(3);
+        $feedback = FeedbackProduct::where('product_id',$id)->paginate(3);
         $img =explode(",",$product->gallery);
         $category_product =Product::where("category_id",$product->category_id)->where('id',"!=",$product->id)->take(4)->get();
         $brand_product =Product::where("brand_id",$product->brand_id)->where('id',"!=",$product->id)->take(4)->get();
         return view('client.product_detail',['product'=>$product,'category_product'=>$category_product,
-        'brand_product'=>$brand_product,'brand'=>$brand,'img'=>$img]);
+        'brand_product'=>$brand_product,'brand'=>$brand,'img'=>$img,'feedback'=>$feedback]);
     }
+
+
+
+    public function postLogin(Request $request){
+                $validator = Validator::make($request->all(),[
+                    "email" => 'required|email',
+                    "password"=> "required|min:8"
+                ]);
+        
+                if($validator->fails()){
+                    return response()->json(["status"=>false,"message"=>$validator->errors()->first()]);
+                }
+                $email = $request->get("email");
+                $pass = $request->get("password");
+                if(Auth::attempt(['email'=>$email,'password'=>$pass])){
+                    return response()->json(['status'=>true,'message'=>"Login successfully!"]);
+                }
+                return response()->json(['status'=>false,'message'=>"login failure"]);
+            }
 }

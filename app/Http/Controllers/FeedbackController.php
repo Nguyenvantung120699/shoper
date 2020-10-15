@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\FeedbackProduct;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class FeedbackController extends Controller
@@ -35,7 +37,44 @@ class FeedbackController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            "product_id"=> "integer",
+            "point"=> "integer",
+            "feel"=> "string",
+            "image" => "string",
+        ]);
+        FeedbackProduct::create([
+            "user_id" => Auth::id(),
+            "name"=> Auth::user()->name,
+            "product_id"=> $request->get("product_id"),
+            "point"=> $request->get("point"),
+            "feel"=> $request->get("feel"),
+            "image"=> $request->get("image"),
+        ]);
+        // try{
+        //     $image = null;
+        //     $ext_allow = ["png","jpg","jpeg","gif","svg"];
+        //     if($request->hasFile("image")){
+        //         $file = $request->file("image");
+        //         $file_name = time()."_".$file->getClientOriginalName();
+        //         $ext = $file->getClientOriginalExtension();
+        //         if(in_array($ext,$ext_allow)){
+        //             $file->move("upload/feedbacks/",$file_name);
+        //             $image = "upload/feedbacks/".$file_name;
+        //         } 
+        //     }
+        //     FeedbackProduct::create([
+        //         "user_id" => Auth::id(),
+        //         "name"=> Auth::user()->name,
+        //         "product_id"=> $request->get("product_id"),
+        //         "point"=> $request->get("point"),
+        //         "feel"=> $request->get("feel"),
+        //         "image"=> $image,
+        //     ]);
+        // }catch(\Exception $e){
+        //     return redirect()->back();
+        // }
+        return response()->json([]);
     }
 
     /**

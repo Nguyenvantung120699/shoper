@@ -65,7 +65,13 @@
                                     <input name="quantity" type="text" value="1">
                                 </div>
                             </div>
-                            <button type="submit" class="site-btn"><span class="icon_bag_alt"></span> Thêm Vào Giỏ</button>
+                            @if(!Auth::check())
+								<a href="#" data-toggle="modal" data-target="#loginModalCenter">
+                                    <button type="submit" class="site-btn"><span class="icon_bag_alt"></span> Thêm Vào Giỏ</button>
+								</a>
+							@else
+                                <button type="submit" class="site-btn"><span class="icon_bag_alt"></span> Thêm Vào Giỏ</button>
+							@endif
                         </div>
                         <div class="product__details__widget">
                             <ul>
@@ -119,29 +125,51 @@
                     <div class="product__details__tab">
                         <ul class="nav nav-tabs" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">Giới Thiệu</a>
+                                <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">Đánh Giá</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">Đánh Giá</a>
+                                <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">Giới Thiệu</a>
                             </li>
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane active" id="tabs-1" role="tabpanel">
-                                <h6>Giới Thiệu {{$product->product_name}}</h6>
-                                <p>{{$product->product_description}}</p>
+                                <div class="blog__details__comment">
+                                    <h5>{{$feedback->count()}} Nhận Xét</h5>
+                                    <a href="#" class="leave-btn">Leave a comment</a>
+                                    @foreach($feedback as $f)
+                                    <div class="blog__comment__item">
+                                        <div class="blog__comment__item__pic">
+                                            <img src="{{asset("client/img/blog/details/comment-1.jpg")}}" alt="">
+                                        </div>
+                                        <div class="blog__comment__item__text">
+                                            <h6>{{$f->Users->name}}</h6>
+                                            <p>{{$f->feel}}</p>
+                                            <ul>
+                                                <li><i class="fa fa-clock-o"></i>{{$f->created_at}}</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                    <div class="col-lg-12 text-center">
+                                        <div class="pagination__option">
+                                        @if($feedback->previousPageUrl() != null)
+                                            <a href="{{$feedback->previousPageUrl()}}"><i class="fa fa-angle-left"></i></a>
+                                            @else
+                                        @endif
+                                            @for ($i = 1; $i <= $feedback->lastPage(); $i++)
+                                            <a href="{{$feedback->nextPageUrl()}}">{{$i}}</a>
+                                            @endfor
+                                        @if($feedback->nextPageUrl() != null)
+                                            <a href="{{$feedback->nextPageUrl()}}"><i class="fa fa-angle-right"></i></a>
+                                            @else
+                                        @endif
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="tab-pane" id="tabs-2" role="tabpanel">
-                                <h6>Specification</h6>
-                                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut loret fugit, sed
-                                    quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt loret.
-                                    Neque porro lorem quisquam est, qui dolorem ipsum quia dolor si. Nemo enim ipsam
-                                    voluptatem quia voluptas sit aspernatur aut odit aut loret fugit, sed quia ipsu
-                                    consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Nulla
-                                consequat massa quis enim.</p>
-                                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget
-                                    dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes,
-                                    nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium
-                                quis, sem.</p>
+                                <h6>Giới Thiệu {{$product->product_name}}</h6>
+                                <p>{{$product->product_description}}</p>
                             </div>
                         </div>
                     </div>

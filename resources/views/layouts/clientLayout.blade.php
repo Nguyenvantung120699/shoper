@@ -38,6 +38,7 @@
 
     @include('layouts.html.footer')
 
+    @include('client.modal.login')
     <div class="search-model">
       <div class="h-100 d-flex align-items-center justify-content-center">
           <div class="search-close-switch">+</div>
@@ -47,6 +48,6 @@
       </div>
     </div>
   @include('layouts.html.script')
-
+    @yield('js')
   </body>
 </html>

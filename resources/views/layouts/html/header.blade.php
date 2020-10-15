@@ -9,22 +9,22 @@
                 <div class="col-xl-6 col-lg-7">
                     <nav class="header__menu">
                         <ul>
-                            <li class="active"><a href="{{url("/shoper")}}">Home</a></li>
+                            <li class="active"><a href="{{url("/home")}}">Home</a></li>
                             <li><a href="{{url("/shop")}}">Cửa Hàng</a></li>
-                            <li><a href="#">Thương Hiệu</a>
+                            <!-- <li><a href="#">Thương Hiệu</a>
                                 <ul class="dropdown">
                                     @foreach(\App\Models\Brand::all() as $b)   
                                     <li><a href="#">{{$b->brands_name}}</a></li>
                                     @endforeach
                                 </ul>
-                            </li>           
+                            </li>  -->           
                             <li><a href="#">Danh Mục</a>
                                 <ul class="dropdown">
                                     @foreach(\App\Models\Category::all() as $c)   
-                                    <li><a href="#">{{$c->categories_name}}</a></li>
+                                    <li><a href="{{url("/shop")}}">{{$c->categories_name}}</a></li>
                                     @endforeach
                                 </ul>
-                            </li>                                
+                            </li>
                             <li><a href="#">Tùy Chọn</a>
                                 <ul class="dropdown">
                                     <li><a href="{{url("/list-order")}}">Đơn Của Tôi</a></li>
@@ -40,7 +40,7 @@
                         @if(!Auth::check())
                         <div class="header__right__auth">
                             <a href="{{url("/login")}}">Login</a>
-                            <a href="{{url("/regiter")}}">Register</a>
+                            <a href="{{url("/register")}}">Register</a>
                         </div>
                         @else
                         <div class="header__right__auth">
@@ -51,12 +51,11 @@
                             <li><a href="{{url("/logout")}}"><i class="fa fa-sign-out" aria-hidden="true"></i></a></li>
                             <li><span class="icon_search search-switch"></span></li>
                             @if(!Auth::check())
-                            <li><a href="{{url("/login")}}"><span class="icon_bag_alt"></span>
-                            @else
-                            <li><a href="{{url("/cart")}}"><span class="icon_bag_alt"></span>
-                            @endif
+                            <li><a href="#" data-toggle="modal" data-target="#loginModalCenter"><span class="icon_bag_alt"></span></a>
+							@else
+                            <li><a href="{{url("/cart")}}"><span class="icon_bag_alt"></span></a></li>
+							@endif
                                 <!-- <div class="tip"></div> -->
-                            </a></li>
                         </ul>
                     </div>
                 </div>
